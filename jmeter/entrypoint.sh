@@ -16,6 +16,7 @@ echo "Target: $TARGET"
 echo "Target port: $TARGET_PORT"
 echo "Protocol: $PROTOCOL"
 echo "Path: $TARGET_PATH"
+echo "rps: $RPS"
 echo "Threads: $THREADS"
 echo "Duration: $DURATION"
 
@@ -25,6 +26,7 @@ cd /opt/apache-jmeter-3.1/ || exit
                                     -Jprotocol="$PROTOCOL" \
                                     -Jpath="$TARGET_PATH" \
                                     -Jthreads="$THREADS" \
+                                    -Jrps="$RPS" \
                                     -Jduration="$DURATION" \
                                     -j /tmp/jmeter.log \
                                     -l /tmp/result.jtl \
