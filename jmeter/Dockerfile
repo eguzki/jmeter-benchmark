@@ -8,7 +8,10 @@ ADD https://repo1.maven.org/maven2/kg/apc/cmdrunner/2.0/cmdrunner-2.0.jar /opt/a
 ADD https://repo1.maven.org/maven2/kg/apc/jmeter-plugins-manager/0.11/jmeter-plugins-manager-0.11.jar /opt/apache-jmeter-3.1/lib/ext/jmeter-plugins-manager-0.11.jar
 
 RUN java -cp /opt/apache-jmeter-3.1/lib/ext/jmeter-plugins-manager-0.11.jar org.jmeterplugins.repository.PluginManagerCMDInstaller \
-    && /opt/apache-jmeter-3.1/bin/PluginsManagerCMD.sh install jpgc-casutg jpgc-ggl jpgc-standard
+    && /opt/apache-jmeter-3.1/bin/PluginsManagerCMD.sh install jpgc-casutg \
+    && /opt/apache-jmeter-3.1/bin/PluginsManagerCMD.sh install jpgc-ggl \
+    && /opt/apache-jmeter-3.1/bin/PluginsManagerCMD.sh install jpgc-standard \
+    && /opt/apache-jmeter-3.1/bin/PluginsManagerCMD.sh install jpgc-tst
 
 ADD ./conf/* /opt/apache-jmeter-3.1/bin/
 ADD ./entrypoint.sh ./entrypoint.sh

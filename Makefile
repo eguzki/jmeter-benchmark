@@ -19,7 +19,9 @@ run_remote_jmeter:
             -e TARGET_PORT=\"${TARGET_PORT}\" \
             -e TARGET_PATH=\"${TARGET_PATH}\" \
             -e THREADS=\"${THREADS}\" \
+            -e RPS=\"${RPS}\" \
             jmprusi/jmeter-server"
 
-retrieve_report: 
-	scp -r "${USER}"@"${INJECTOR_HOST}" /tmp/report ./
+retrieve_report:
+	ssh -tt "${USER}"@"${INJECTOR_HOST}" -- "cd /tmp && tar -czf report.tar.gz /tmp/report"
+	scp -r "${USER}"@"${INJECTOR_HOST}":/tmp/report.tar.gz ./
