@@ -12,7 +12,7 @@ run_benchmark: run_remote_jmeter retrieve_report
 
 run_remote_jmeter:
 	ssh -tt "${USER}"@"${INJECTOR_HOST}" -- "sudo \
-            docker run -ti -v /tmp:/tmp --net=host \
+            docker run -ti -v /tmp:/tmp --net=host --privileged=true\
             -e PROTOCOL=\"${PROTOCOL}\" \
             -e DURATION=\"${DURATION}\" \
             -e TARGET=\"${TARGET}\" \
