@@ -13,6 +13,7 @@ DURATION=${DURATION:-600}
 
 echo "Running Jmeter with: "
 echo "Target: $TARGET"
+echo "Target Host Header: $TARGET_HOST_HEADER"
 echo "Target port: $TARGET_PORT"
 echo "Protocol: $PROTOCOL"
 echo "Path: $TARGET_PATH"
@@ -28,6 +29,7 @@ cd /opt/apache-jmeter-3.1/ || exit
                                     -Jthreads="$THREADS" \
                                     -Jrps="$RPS" \
                                     -Jduration="$DURATION" \
+				    -Jtarget_host_header="$TARGET_HOST_HEADER" \
                                     -j /tmp/jmeter.log \
                                     -l /tmp/result.jtl \
                                     -e -o /tmp/report/

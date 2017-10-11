@@ -3,6 +3,7 @@ INJECTOR_HOST ?= ""
 TEST_PLAN ?= "test-plan.jmx"
 TARGET_PORT ?= 80
 TARGET_HOST ?= ""
+TARGET_HOST_HEADER ?= ""
 TARGET_PATH ?= "/"
 PROTOCOL ?= "http"
 DURATION ?= 600
@@ -18,6 +19,7 @@ run_remote_jmeter:
             -e TARGET=\"${TARGET}\" \
             -e TARGET_PORT=\"${TARGET_PORT}\" \
             -e TARGET_PATH=\"${TARGET_PATH}\" \
+            -e TARGET_HOST_HEADER=\"${TARGET_HOST_HEADER}\" \
             -e THREADS=\"${THREADS}\" \
             -e RPS=\"${RPS}\" \
             jmprusi/jmeter-server"
