@@ -8,6 +8,7 @@ TARGET_PATH ?= "/"
 PROTOCOL ?= "http"
 DURATION ?= 600
 THREADS ?= 100
+RPS ?= 50
 
 run_benchmark: run_remote_jmeter retrieve_report
 
@@ -16,7 +17,7 @@ run_remote_jmeter:
             docker run -ti -v /tmp:/tmp --net=host --privileged=true\
             -e PROTOCOL=\"${PROTOCOL}\" \
             -e DURATION=\"${DURATION}\" \
-            -e TARGET=\"${TARGET}\" \
+            -e TARGET=\"${TARGET_HOST}\" \
             -e TARGET_PORT=\"${TARGET_PORT}\" \
             -e TARGET_PATH=\"${TARGET_PATH}\" \
             -e TARGET_HOST_HEADER=\"${TARGET_HOST_HEADER}\" \
