@@ -18,12 +18,14 @@ run_benchmark: deploy_conf run_remote_jmeter retrieve_report
 
 deploy_conf:
 	scp -r ${PROJECT_PATH}/jmeter/${TEST_PLAN} ${USER}@${INJECTOR_HOST}:test-plan.jmx
+	rsync -zavr --delete ${PROJECT_PATH}/jmeter/data/ ${USER}@${INJECTOR_HOST}:jmeter-data
 
 run_remote_jmeter:
 	ssh -tt "${USER}"@"${INJECTOR_HOST}" -- "sudo \
             docker run -ti\
 						-v /tmp:/tmp\
 						-v /home/${USER}/test-plan.jmx:${JMETER_PLAN_PATH}/test-plan.jmx\
+						-v /home/${USER}/jmeter-data:${JMETER_PLAN_PATH}/data\
 						--net=host --privileged=true\
             -e PROTOCOL=\"${PROTOCOL}\" \
             -e DURATION=\"${DURATION}\" \
