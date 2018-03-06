@@ -1,3 +1,9 @@
+Current test plan reads traffic url from *data/saas_traffic_profile.txt*.
+
+Overwrite *data/saas_traffic_profile.txt* file with your traffic urls.
+
+Then, run the benchmark.
+
 # RUN
 ```bash
 $ TEST_PLAN=test-plan.jmx USER=centos THREADS="300" INJECTOR_HOST="injector.benchmark.3sca.net" DURATION=300 TARGET_HOST="ec2-34-242-78-29.eu-west-1.compute.amazonaws.com" TARGET_HOST_HEADER="echo-api.benchmark.3sca.net" PROTOCOL="http" TARGET_PORT="8081" RPS=500 TARGET_PATH="/some-request?user_key=864e8b7517b33fa2" make run_benchmark
