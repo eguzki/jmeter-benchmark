@@ -29,7 +29,7 @@ cd /opt/apache-jmeter-3.1/ || exit
                                     -Jthreads="$THREADS" \
                                     -Jrps="$RPS" \
                                     -Jduration="$DURATION" \
-				    -Jtarget_host_header="$TARGET_HOST_HEADER" \
+                                    -Jtarget_host_header="$TARGET_HOST_HEADER" \
                                     -j /tmp/jmeter.log \
                                     -l /tmp/result.jtl \
                                     -e -o /tmp/report/

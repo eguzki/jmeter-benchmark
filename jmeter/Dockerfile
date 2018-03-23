@@ -15,6 +15,5 @@ RUN java -cp /opt/apache-jmeter-3.1/lib/ext/jmeter-plugins-manager-0.11.jar org.
 
 ADD ./conf/* /opt/apache-jmeter-3.1/bin/
 ADD ./entrypoint.sh ./entrypoint.sh
-ADD ./test-plan.jmx /opt/apache-jmeter-3.1/test-plan.jmx 
 
 ENTRYPOINT ./entrypoint.sh

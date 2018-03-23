@@ -1,6 +1,10 @@
+MKFILE_PATH := $(abspath $(lastword $(MAKEFILE_LIST)))
+PROJECT_PATH := $(patsubst %/,%,$(dir $(MKFILE_PATH)))
+JMETER_PLAN_PATH := /opt/apache-jmeter-3.1
+
 USER ?= root
 INJECTOR_HOST ?= ""
-TEST_PLAN ?= "test-plan.jmx"
+TEST_PLAN ?= test-plan.jmx
 TARGET_PORT ?= 80
 TARGET_HOST ?= ""
 TARGET_HOST_HEADER ?= ""
@@ -10,11 +14,17 @@ DURATION ?= 600
 THREADS ?= 100
 RPS ?= 50
 
-run_benchmark: run_remote_jmeter retrieve_report
+run_benchmark: deploy_conf run_remote_jmeter retrieve_report
+
+deploy_conf:
+	scp -r ${PROJECT_PATH}/jmeter/${TEST_PLAN} ${USER}@${INJECTOR_HOST}:test-plan.jmx
 
 run_remote_jmeter:
 	ssh -tt "${USER}"@"${INJECTOR_HOST}" -- "sudo \
-            docker run -ti -v /tmp:/tmp --net=host --privileged=true\
+            docker run -ti\
+						-v /tmp:/tmp\
+						-v /home/${USER}/test-plan.jmx:${JMETER_PLAN_PATH}/test-plan.jmx\
+						--net=host --privileged=true\
             -e PROTOCOL=\"${PROTOCOL}\" \
             -e DURATION=\"${DURATION}\" \
             -e TARGET=\"${TARGET_HOST}\" \
@@ -23,7 +33,7 @@ run_remote_jmeter:
             -e TARGET_HOST_HEADER=\"${TARGET_HOST_HEADER}\" \
             -e THREADS=\"${THREADS}\" \
             -e RPS=\"${RPS}\" \
-            jmprusi/jmeter-server"
+            quay.io/3scale/jmeter"
 
 retrieve_report:
 	ssh -tt "${USER}"@"${INJECTOR_HOST}" -- "cd /tmp && tar -czf report.tar.gz /tmp/report"
