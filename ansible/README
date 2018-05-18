@@ -1,0 +1,2 @@
+$ ansible-playbook -i hosts buddhi.yml
+$ ansible-playbook -i hosts perftest.yml
