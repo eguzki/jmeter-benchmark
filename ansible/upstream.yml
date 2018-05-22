@@ -1,15 +1,6 @@
 ---
 - hosts: buddhi
   become: yes
-  roles:
-    - common
   remote_user: centos
-  tasks:
-    - name: Run Buddhi test configurator
-      docker_container:
-        name: buddhi 
-        state: started 
-        tty: True
-        network_mode: host
-        image: quay.io/3scale/amp-toolkit:buddhi
-        command: "-I {{ internal_api_uri }} -B {{ backend_uri }} -U {{ backend_username }} -P {{ backend_pass }} -E {{ upstream_uri }} -T {{ traffic_profile }} -A http://{{ wilcard_domain }}"
+  roles:
+    - upstream-configurator
