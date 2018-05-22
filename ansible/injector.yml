@@ -4,64 +4,50 @@
   roles:
     - common
   vars:
+    perf_path_root: "/opt/3scale-perftest"
+    perf_bin_path: "{{ perf_path_root }}/bin"
     traffic_num_lines: 100000
-    temp_report_path: "/tmp/report"
-    temp_plan_path: "/home/{{ ansible_ssh_user }}/jmeter_plan"
-    temp_plan_file: "{{ temp_plan_path }}/test-plan.jmx"
-    temp_traffic_path: "/home/{{ ansible_ssh_user }}/traffic"
-    jmeter_plan_path: /opt/apache-jmeter-3.1
+    report_path: "{{ perf_path_root }}/reports"
+    test_plan_path: "{{ perf_path_root }}/test-plans"
+    test_plan_file: "{{ test_plan_path }}/test-plan.jmx"
+    traffic_path: "{{ perf_path_root }}/traffic"
+    jmeter_plan_path: "/opt/apache-jmeter-3.1"
+    jmeter_plan_file: "{{ jmeter_plan_path }}/test-plan.jmx"
+    jmeter_traffic_path: "{{ jmeter_plan_path}}/data"
   tasks:
     - name: Creates traffic directory
       file:
-        path: "{{ temp_traffic_path }}"
+        path: "{{ traffic_path }}"
         state: directory
     - name: Creates test plan directory
       file:
-        path: "{{ temp_plan_path }}"
+        path: "{{ test_plan_path }}"
         state: directory
     - name: Creates report directory
       file:
-        path: "{{ temp_report_path }}"
+        path: "{{ report_path }}"
+        state: directory
+    - name: Creates bin directory
+      file:
+        path: "{{ perf_bin_path }}"
         state: directory
     - name: Download traffic urls from buddhi
       get_url:
         url: "http://{{ hostvars['buddhi'].ansible_host }}:{{ buddhi_port }}/paths/amp?lines={{ traffic_num_lines }}"
         force: yes
-        dest: "{{ temp_traffic_path }}/csv_traffic_profile.csv"
+        dest: "{{ traffic_path }}/csv_traffic_profile.csv"
         mode: 0440
     - name: Deploy jmeter test plan
       copy:
         src: roles/common/files/test-plan-csv.jmx
-        dest: "{{ temp_plan_file }}"
-    - name: Run Perf tests
-      docker_container:
-        name: jmeter
-        state: started
-        recreate: yes
-        restart: yes
-        detach: no
-        tty: yes
-        network_mode: host
-        privileged: yes
-        image: quay.io/3scale/jmeter
-        env:
-          PROTOCOL: "{{ jmeter_protocol }}"
-          DURATION: "{{ jmeter_test_duration }}"
-          TARGET: "{{ jmeter_test_target_host }}"
-          TARGET_PORT: "{{ jmeter_test_target_port }}"
-          THREADS: "{{ jmeter_test_threads }}"
-          RPS: "{{ jmeter_test_rps }}"
-        volumes:
-          - "{{ temp_report_path }}:/tmp"
-          - "{{ temp_plan_file }}:{{ jmeter_plan_path }}/test-plan.jmx"
-          - "{{ temp_traffic_path }}:{{ jmeter_plan_path }}/data"
-    - name: Archive jmeter report
-      archive:
-        path: "{{ temp_report_path }}/report/"
-        dest: "{{ temp_report_path }}/report.tar.gz"
-        remove: True
-    - name: Download jmeter report
-      fetch:
-        src: "{{ temp_report_path }}/report.tar.gz"
-        flat: yes
-        dest: "./"
+        dest: "{{ test_plan_file }}"
+    - name: Deploy perftest script
+      template:
+        src: roles/common/templates/3scale-perftest.j2
+        dest: "{{ perf_bin_path }}/3scale-perftest"
+        mode: 0755
+    - name: Create symbolic link
+      file:
+        src: "{{ perf_bin_path }}/3scale-perftest"
+        dest: "/usr/local/bin/3scale-perftest"
+        state: link
