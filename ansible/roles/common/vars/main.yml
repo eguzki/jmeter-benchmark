@@ -1,9 +1,0 @@
----
-traffic_profile: simple
-internal_api_uri: http://backend-3scale.master.perftest.3sca.net
-backend_uri: http://backend-listener:3000
-backend_username: 3scale_api_user
-backend_pass: 7qhb4eh4
-upstream_uri: http://ec2-18-184-227-118.eu-central-1.compute.amazonaws.com:8090
-wilcard_domain: benchmark.3sca.net
-buddhi_port: 8089

@@ -1,0 +1,9 @@
+---
+# defaults file for buddhi-configurator
+buddhi_traffic_profile: simple
+buddhi_internal_api_uri: http://backend-3scale.master.perftest.3sca.net
+buddhi_backend_uri: http://backend-listener:3000
+buddhi_backend_username: "<backend_username>"
+buddhi_backend_pass: "<backend_basic_auth_pass>"
+buddhi_upstream_uri: http://ec2-18-184-227-118.eu-central-1.compute.amazonaws.com:8090
+buddhi_wilcard_domain: benchmark.3sca.net

@@ -1,5 +1,0 @@
-* Create jmeter docker image and run from this.
-* task for deploying upstream api (echo-api)
-* Do not run tests from ansible, just install scripts
-** $ 3scale-perf-test --rps 3000 --threads 200
-* layout refactor
