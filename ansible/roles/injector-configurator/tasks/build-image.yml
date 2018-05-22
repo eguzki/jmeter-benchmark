@@ -1,0 +1,15 @@
+---
+
+- name: Copy jmeter Docker image contents
+  copy:
+    src: "opt/3scale-perftest/jmeter-image-contents"
+    dest: "/opt/3scale-perftest/"
+  register: jmeter_docker_img
+
+- name: Build injector Docker image
+  docker_image:
+    path: "/opt/3scale-perftest/jmeter-image-contents"
+    state: present
+    name: "jmeter-benchmark"
+    tag: "1.0"
+    force: "{{ jmeter_docker_img.changed }}"
