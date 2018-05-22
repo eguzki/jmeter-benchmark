@@ -2,5 +2,4 @@
 - hosts: injector
   become: yes
   roles:
-    - common
     - injector-configurator
