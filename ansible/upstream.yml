@@ -1,5 +1,5 @@
 ---
-- hosts: buddhi
+- hosts: upstream
   become: yes
   remote_user: centos
   roles:
