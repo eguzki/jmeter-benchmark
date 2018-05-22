@@ -1,0 +1,23 @@
+---
+- hosts: injector
+  become: yes
+  roles:
+    - common
+  vars:
+    traffic_num_lines: 100000
+    temp_report_path: "/tmp/report"
+    temp_plan_path: "/home/{{ ansible_ssh_user }}/jmeter_plan"
+    temp_plan_file: "{{ temp_plan_path }}/test-plan.jmx"
+    temp_traffic_path: "/home/{{ ansible_ssh_user }}/traffic"
+    jmeter_plan_path: /opt/apache-jmeter-3.1
+  tasks:
+    - name: Archive jmeter report
+      archive:
+        path: "{{ temp_report_path }}/report/"
+        dest: "{{ temp_report_path }}/report.tar.gz"
+        remove: True
+    - name: Download jmeter report
+      fetch:
+        src: "{{ temp_report_path }}/report.tar.gz"
+        flat: yes
+        dest: "./"
