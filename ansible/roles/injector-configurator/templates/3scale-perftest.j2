@@ -1,14 +1,14 @@
 #!/bin/bash
 
 CONTAINER_NAME=3scale-perftest
-REPORT_PATH={{ report_path }}
-TEST_PLAN_FILE={{ test_plan_file  }}
-JMETER_PLAN_FILE={{ jmeter_plan_file }}
-TRAFFIC_PATH={{ traffic_path }}
-JMETER_TRAFFIC_PATH={{ jmeter_traffic_path }}
-PROTOCOL="http"
-TARGET_HOST={{ jmeter_test_target_host }}
-TARGET_PORT={{ jmeter_test_target_port }}
+REPORT_PATH={{ injector_reports_path }}
+TEST_PLAN_FILE={{ injector_plan_file  }}
+JMETER_PLAN_FILE={{ injector_jmeter_plan_file }}
+TRAFFIC_PATH={{ injector_traffic_path }}
+JMETER_TRAFFIC_PATH={{ injector_jmeter_traffic_path }}
+PROTOCOL={{ injector_jmeter_protocol }}
+TARGET_HOST={{ injector_jmeter_target_host }}
+TARGET_PORT={{ injector_jmeter_target_port }}
 
 while getopts ":hr:d:t:" opt; do
   case ${opt} in
@@ -54,4 +54,4 @@ docker run -ti --rm --name ${CONTAINER_NAME} \
       -e TARGET_PORT="${TARGET_PORT}" \
       -e THREADS="${THREADS}" \
       -e RPS="${RPS}" \
-      quay.io/3scale/jmeter
+      {{ injector_jmeter_image_name }}:{{ injector_jmeter_image_tag }}
