@@ -1,3 +1,0 @@
-/mypath?mykey=myval
-/mypath2?mykey2=myval2
-/mypath3?mykey3=myval3
