@@ -1,5 +1,6 @@
 ---
 # defaults file for buddhi-configurator
+# Traffic profile options: simple, onprem, saas
 buddhi_traffic_profile: simple
 buddhi_internal_api_uri: http://backend-3scale.master.perftest.3sca.net
 buddhi_backend_uri: http://backend-listener:3000
